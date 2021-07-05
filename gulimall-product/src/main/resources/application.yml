@@ -1,0 +1,56 @@
+spring:
+  datasource:
+    username: root
+    password: sjh9323
+    url: jdbc:mysql://localhost:3306/gulimall_pms
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  application:
+    name: gulimall-product
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  thymeleaf:
+    cache: false
+  redis:
+    host: 172.17.0.1
+    port: 6379
+    password: sjh9323
+  cache:
+    #指定缓存类型为redis
+    type: redis
+    redis:
+      # 指定redis中的过期时间为1h
+      time-to-live: 3600000
+#      key-prefix: CACHE_
+      use-key-prefix: true
+      #存储空值， 防止缓存穿透
+      cache-null-values: true
+
+
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml   # mapper sql映射文件位置
+  global-config:
+    db-config:
+      id-type: auto  # 自增主键
+      # 逻辑删除全局配置
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+server:
+  port: 10000
+
+logging:
+  level:
+    com.atsjh.gulimall: error
+
+gulimall-thread:
+  core-pool-size: 20
+  maximum-pool-size: 200
+  keep-alive-time: 10

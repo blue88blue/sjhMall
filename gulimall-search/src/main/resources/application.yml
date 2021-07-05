@@ -1,0 +1,13 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+  application:
+    name: gulimall-search
+
+  thymeleaf:
+    cache: false
+
+server:
+  port: 12000
