@@ -4,14 +4,16 @@ import java.util.Arrays;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.atsjh.common.exception.BizCodeEnum;
+import com.atsjh.gulimall.member.entity.MemberLevelEntity;
+import com.atsjh.gulimall.member.exception.PhoneUniqueException;
+import com.atsjh.gulimall.member.exception.UserNameUniqueException;
 import com.atsjh.gulimall.member.feign.CouponFeignService;
+import com.atsjh.gulimall.member.vo.MemberRegistVo;
+import com.atsjh.gulimall.member.vo.UserLoginVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.atsjh.gulimall.member.entity.MemberEntity;
 import com.atsjh.gulimall.member.service.MemberService;
@@ -35,6 +37,31 @@ public class MemberController {
 
     @Autowired
     CouponFeignService couponFeignService;
+
+    @PostMapping("/login")
+    public R login(@RequestBody UserLoginVo vo){
+        MemberEntity entity = memberService.login(vo);
+        if(entity == null){
+            return R.error(BizCodeEnum.PASSWORD_INVALID_EXCEPTION.getCode(), BizCodeEnum.PASSWORD_INVALID_EXCEPTION.getMsg());
+        }
+        else{
+            return R.ok();
+        }
+    }
+
+
+    @PostMapping("/memberRegist")
+    public R memberRegist(@RequestBody MemberRegistVo memberRegistVo){
+        try {
+            memberService.regist(memberRegistVo);
+        } catch (UserNameUniqueException e) {
+            return R.error(BizCodeEnum.USERNAME_EXIST_EXCEPTION.getCode(), BizCodeEnum.USERNAME_EXIST_EXCEPTION.getMsg());
+        } catch (PhoneUniqueException e){
+            return R.error(BizCodeEnum.PHONE_EXIST_EXCEPTION.getCode(), BizCodeEnum.PHONE_EXIST_EXCEPTION.getMsg());
+        }
+        return R.ok();
+    }
+
 
     @RequestMapping("coupons")
     public R getMemberCoupons(){

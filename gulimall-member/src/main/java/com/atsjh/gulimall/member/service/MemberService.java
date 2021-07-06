@@ -1,5 +1,8 @@
 package com.atsjh.gulimall.member.service;
 
+import com.atsjh.gulimall.member.entity.MemberLevelEntity;
+import com.atsjh.gulimall.member.vo.MemberRegistVo;
+import com.atsjh.gulimall.member.vo.UserLoginVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.atsjh.common.utils.PageUtils;
 import com.atsjh.gulimall.member.entity.MemberEntity;
@@ -16,5 +19,9 @@ import java.util.Map;
 public interface MemberService extends IService<MemberEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    void regist(MemberRegistVo memberRegistVo);
+
+    MemberEntity login(UserLoginVo vo);
 }
 
