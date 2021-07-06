@@ -10,6 +10,7 @@ import com.atsjh.gulimall.member.exception.PhoneUniqueException;
 import com.atsjh.gulimall.member.exception.UserNameUniqueException;
 import com.atsjh.gulimall.member.feign.CouponFeignService;
 import com.atsjh.gulimall.member.vo.MemberRegistVo;
+import com.atsjh.gulimall.member.vo.SocialUser;
 import com.atsjh.gulimall.member.vo.UserLoginVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -37,6 +38,19 @@ public class MemberController {
 
     @Autowired
     CouponFeignService couponFeignService;
+
+
+    @PostMapping("/social/login")
+    public R socialLogin(@RequestBody SocialUser vo) throws Exception {
+        MemberEntity entity = memberService.socialLogin(vo);
+        if(entity != null){
+            return R.ok().setData(entity);
+        }
+        else{
+            return R.error(BizCodeEnum.PASSWORD_INVALID_EXCEPTION.getCode(), BizCodeEnum.PASSWORD_INVALID_EXCEPTION.getMsg());
+        }
+    }
+
 
     @PostMapping("/login")
     public R login(@RequestBody UserLoginVo vo){

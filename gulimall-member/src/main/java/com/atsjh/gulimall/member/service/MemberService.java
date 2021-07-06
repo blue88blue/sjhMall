@@ -2,6 +2,7 @@ package com.atsjh.gulimall.member.service;
 
 import com.atsjh.gulimall.member.entity.MemberLevelEntity;
 import com.atsjh.gulimall.member.vo.MemberRegistVo;
+import com.atsjh.gulimall.member.vo.SocialUser;
 import com.atsjh.gulimall.member.vo.UserLoginVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.atsjh.common.utils.PageUtils;
@@ -23,5 +24,7 @@ public interface MemberService extends IService<MemberEntity> {
     void regist(MemberRegistVo memberRegistVo);
 
     MemberEntity login(UserLoginVo vo);
+
+    MemberEntity socialLogin(SocialUser vo) throws Exception;
 }
 
