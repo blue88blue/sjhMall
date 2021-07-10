@@ -29,8 +29,8 @@ spring:
       use-key-prefix: true
       #存储空值， 防止缓存穿透
       cache-null-values: true
-
-
+  session:
+    store-type: redis
 
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml   # mapper sql映射文件位置

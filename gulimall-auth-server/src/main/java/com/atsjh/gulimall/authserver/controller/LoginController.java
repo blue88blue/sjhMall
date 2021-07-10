@@ -8,14 +8,12 @@ import com.atsjh.common.utils.R;
 import com.atsjh.gulimall.authserver.feign.MemberFeignService;
 import com.atsjh.gulimall.authserver.feign.ThirdPartyFeign;
 import com.atsjh.gulimall.authserver.utils.HttpUtils;
-import com.atsjh.gulimall.authserver.vo.MemberResponseVo;
+import com.atsjh.common.to.MemberResponseTo;
 import com.atsjh.gulimall.authserver.vo.SocialUser;
 import com.atsjh.gulimall.authserver.vo.UserLoginVo;
 import com.atsjh.gulimall.authserver.vo.UserRegistVo;
-import com.mysql.cj.util.DnsSrv;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import javax.xml.transform.Result;
-import java.io.InputStream;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -55,13 +50,28 @@ public class LoginController {
     MemberFeignService memberFeignService;
 
     @GetMapping("/login.html")
-    public String gotoLogin(){
-        return "login";
+    public String gotoLogin(HttpSession session){
+        Object attribute = session.getAttribute(AuthServerConstant.LOGIN_USER);
+        log.info("session登录信息：{}", attribute);
+        //检查是否登录了
+        if(attribute == null){
+            return "login";
+        }
+        else{
+            return "redirect:http://gulimall.com";
+        }
     }
 
     @GetMapping("/reg.html")
-    public String gotoReg(){
-        return "reg";
+    public String gotoReg(HttpSession session){
+        Object attribute = session.getAttribute(AuthServerConstant.LOGIN_USER);
+        //检查是否登录了
+        if(attribute == null){
+            return "reg";
+        }
+        else{
+            return "redirect:http://gulimall.com";
+        }
     }
 
     @GetMapping("/sms/sendCode")
@@ -137,10 +147,13 @@ public class LoginController {
 
 
     @PostMapping("/login")
-    public String login(UserLoginVo vo, RedirectAttributes redirectAttributes){
+    public String login(UserLoginVo vo, RedirectAttributes redirectAttributes, HttpSession session){
         System.out.println(vo);
         R r = memberFeignService.login(vo);
         if(r.getCode() == 0){
+            String jsonString = JSON.toJSONString(r.get("data"));
+            MemberResponseTo memberResponseTo = JSON.parseObject(jsonString, new TypeReference<MemberResponseTo>(){});
+            session.setAttribute(AuthServerConstant.LOGIN_USER, memberResponseTo);//将用户登录信息保存值session
             return "redirect:http://gulimall.com";
         }
         else{
@@ -154,7 +167,7 @@ public class LoginController {
 
 
     @GetMapping("/oauth2/gitee/success")
-    public String authLogin(@RequestParam("code") String code) throws Exception {
+    public String authLogin(@RequestParam("code") String code, HttpSession session) throws Exception {
         //将code发给社交服务器换取token
         HashMap<String, String> querys = new HashMap<>();
         querys.put("grant_type", "authorization_code");
@@ -173,8 +186,9 @@ public class LoginController {
             R r = memberFeignService.socialLogin(socialUser);
             if(r.getCode() == 0){
                 String jsonString = JSON.toJSONString(r.get("data"));
-                MemberResponseVo memberResponseVo = JSON.parseObject(jsonString, new TypeReference<MemberResponseVo>(){});
-                log.info("登录成功， 用户{}", memberResponseVo);
+                MemberResponseTo memberResponseTo = JSON.parseObject(jsonString, new TypeReference<MemberResponseTo>(){});
+                session.setAttribute(AuthServerConstant.LOGIN_USER, memberResponseTo);//将用户登录信息保存值session
+                log.info("登录成功， 用户{}", memberResponseTo);
                 return "redirect:http://gulimall.com";
             }
             else{

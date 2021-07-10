@@ -1,4 +1,4 @@
-package com.atsjh.gulimall.authserver.vo;
+package com.atsjh.common.to;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -12,7 +12,7 @@ import java.util.Date;
  * @date 2021-06-08 14:59:01
  */
 @Data
-public class MemberResponseVo implements Serializable {
+public class MemberResponseTo implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**

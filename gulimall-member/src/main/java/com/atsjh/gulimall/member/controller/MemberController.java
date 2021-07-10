@@ -59,7 +59,7 @@ public class MemberController {
             return R.error(BizCodeEnum.PASSWORD_INVALID_EXCEPTION.getCode(), BizCodeEnum.PASSWORD_INVALID_EXCEPTION.getMsg());
         }
         else{
-            return R.ok();
+            return R.ok().setData(entity);
         }
     }
 

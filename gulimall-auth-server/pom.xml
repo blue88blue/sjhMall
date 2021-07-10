@@ -18,6 +18,12 @@
         <spring-cloud.version>Hoxton.SR6</spring-cloud.version>
     </properties>
     <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>

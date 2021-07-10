@@ -7,4 +7,5 @@ package com.atsjh.common.constant;
  */
 public class AuthServerConstant {
     public static final String SMS_CODE_CAHCE_PREFIX = "sms:code:";
+    public static final String LOGIN_USER = "loginUser";
 }
