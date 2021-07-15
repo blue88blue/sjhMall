@@ -1,5 +1,6 @@
 package com.atsjh.gulimall.ware.service;
 
+import com.atsjh.gulimall.ware.vo.FareVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.atsjh.common.utils.PageUtils;
 import com.atsjh.gulimall.ware.entity.WareInfoEntity;
@@ -18,5 +19,7 @@ public interface WareInfoService extends IService<WareInfoEntity> {
     PageUtils queryPage(Map<String, Object> params);
 
     PageUtils queryPageByCondition(Map<String, Object> params);
+
+    FareVo getFare(Long addrId);
 }
 

@@ -13,6 +13,16 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+  rabbitmq:
+    host: 172.17.0.1
+    virtual-host: /
+    port: 5672
+    publisher-returns: true # 生产者可靠投递
+    listener:
+      simple:
+        acknowledge-mode: manual # 手动确认
+    template:
+      mandatory: true #异步优先发送returnconfirm
 
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml   # mapper sql映射文件位置

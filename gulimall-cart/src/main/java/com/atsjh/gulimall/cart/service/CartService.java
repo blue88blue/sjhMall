@@ -3,6 +3,7 @@ package com.atsjh.gulimall.cart.service;
 import com.atsjh.gulimall.cart.vo.CartItemVo;
 import com.atsjh.gulimall.cart.vo.CartVo;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -22,4 +23,9 @@ public interface CartService {
     void changeItemCount(Long skuId, Integer num);
 
     void deleteIdCartInfo(Integer skuId);
+
+    List<CartItemVo> getItemsForOrder();
+
+    List<CartItemVo> getCheckedItems();
+
 }

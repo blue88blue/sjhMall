@@ -1,5 +1,6 @@
 package com.atsjh.gulimall.product.service;
 
+import com.atsjh.gulimall.product.entity.SpuInfoEntity;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.atsjh.common.utils.PageUtils;
 import com.atsjh.gulimall.product.entity.SpuInfoDescEntity;
@@ -18,5 +19,6 @@ public interface SpuInfoDescService extends IService<SpuInfoDescEntity> {
     PageUtils queryPage(Map<String, Object> params);
 
     void saveInfoBySpuId(SpuInfoDescEntity spuInfoDescEntity);
+
 }
 

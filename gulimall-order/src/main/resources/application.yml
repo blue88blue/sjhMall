@@ -20,6 +20,14 @@ spring:
         acknowledge-mode: manual # 手动确认
     template:
       mandatory: true #异步优先发送returnconfirm
+  thymeleaf:
+    cache: false
+  redis:
+    port: 6379
+    host: 172.17.0.1
+    password: sjh9323
+  session:
+    store-type: redis
 
 mybatis-plus:
   mapper-locations: classpath*:/mapper/**/*.xml   # mapper sql映射文件位置
@@ -29,3 +37,8 @@ mybatis-plus:
 
 server:
   port: 9000
+
+gulimall-thread:
+  maximum-pool-size: 200
+  core-pool-size: 20
+  keep-alive-time: 10

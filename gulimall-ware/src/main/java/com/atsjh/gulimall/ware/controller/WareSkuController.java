@@ -6,12 +6,9 @@ import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.atsjh.gulimall.ware.vo.SkuHasStochVo;
+import com.atsjh.gulimall.ware.vo.WareSkuLockVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.atsjh.gulimall.ware.entity.WareSkuEntity;
 import com.atsjh.gulimall.ware.service.WareSkuService;
@@ -33,6 +30,18 @@ import javax.sound.midi.Soundbank;
 public class WareSkuController {
     @Autowired
     private WareSkuService wareSkuService;
+
+
+    @PostMapping("lock/order")
+    public R lockOder(@RequestBody WareSkuLockVo lockVo){
+        boolean res = wareSkuService.orderLockStock(lockVo);
+        if(res)
+            return R.ok();
+        else
+            return R.error();
+    }
+
+
 
     @RequestMapping("hasStock")
     public R hasStock(@RequestBody List<Long> skuIds){

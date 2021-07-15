@@ -31,6 +31,14 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+
+    @RequestMapping("/infoByOrderSn/{OrderSn}")
+    public R infoByOrderSn(@PathVariable("OrderSn") String OrderSn){
+        OrderEntity order = orderService.getOrderByOrderSn(OrderSn);
+
+        return R.ok().put("order", order);
+    }
+
     /**
      * 列表
      */

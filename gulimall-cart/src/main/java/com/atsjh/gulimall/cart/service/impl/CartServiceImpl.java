@@ -17,11 +17,13 @@ import org.springframework.data.redis.core.BoundHashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 /**
  * @author: sjh
@@ -159,6 +161,38 @@ public class CartServiceImpl implements CartService {
         BoundHashOperations<String, Object, Object> cartOps = getCartOps();
         cartOps.delete(skuId.toString());
     }
+
+    @Override
+    public List<CartItemVo> getItemsForOrder() {
+        //登录信息
+        UserInfoTo userInfoTo = CartInteceptor.toThreadLocal.get();
+        if(userInfoTo.getUserId() == null){
+            return null;
+        }
+        else{
+            //登录了就查购物车
+            String cartKey = CartConstant.CART_PREFIX + userInfoTo.getUserId();
+            CartVo cart = getCartByKey(cartKey);
+            List<CartItemVo> items = cart.getItems();
+            List<CartItemVo> collect = items.stream().filter(item -> item.getCheck()).map(item->{
+                //更新最新的价格
+                R r = productFeignService.getPriceBySkuId(item.getSkuId());
+                if(r.getCode() == 0){
+                    item.setPrice(new BigDecimal(String.valueOf(r.get("price"))));
+                }
+                return item;
+            }).collect(Collectors.toList());
+            return collect;
+        }
+    }
+
+    @Override
+    public List<CartItemVo> getCheckedItems() {
+        UserInfoTo userInfoTo = CartInteceptor.toThreadLocal.get();
+        CartVo cart = getCartByKey(CartConstant.CART_PREFIX+userInfoTo.getUserId());
+        return cart.getItems().stream().filter(CartItemVo::getCheck).collect(Collectors.toList());
+    }
+
 
     public CartVo getCartByKey(String tempCartKey){
         CartVo cartVo = new CartVo();

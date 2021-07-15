@@ -20,7 +20,7 @@ import java.util.Map;
  *
  * @author Mark sunlightcs@gmail.com
  */
-public class R<T> extends HashMap<String, Object> {
+public class R extends HashMap<String, Object> {
 	private static final long serialVersionUID = 1L;
 
 	public R setData(Object data) {
@@ -28,19 +28,14 @@ public class R<T> extends HashMap<String, Object> {
 		return this;
 	}
 
-	//利用fastjson进行反序列化
-	public <T> T getData(TypeReference<T> typeReference) {
-		Object data = get("data");	//默认是map
-		String jsonString = JSON.toJSONString(data);
-		T t = JSON.parseObject(jsonString, typeReference);
-		return t;
+	public <T> T getData(TypeReference<T> tTypeReference) {
+		return this.getData("data", tTypeReference);
 	}
 
-	//利用fastjson进行反序列化
-	public <T> T getData(String key,TypeReference<T> typeReference) {
-		Object data = get(key);	//默认是map
-		String jsonString = JSON.toJSONString(data);
-		T t = JSON.parseObject(jsonString, typeReference);
+	public <T> T getData(String key, TypeReference<T> tTypeReference) {
+		Object data = this.get(key);
+		String toJSONString = JSON.toJSONString(data);
+		T t = JSON.parseObject(toJSONString, tTypeReference);
 		return t;
 	}
 

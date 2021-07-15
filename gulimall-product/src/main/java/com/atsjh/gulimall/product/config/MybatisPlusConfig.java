@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @MapperScan("com.atsjh.gulimall.product.dao")
 public class MybatisPlusConfig {
-    // 最新版
+    // 最新版 分页
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();

@@ -1,5 +1,6 @@
 package com.atsjh.gulimall.product.service.impl;
 
+import com.atsjh.gulimall.product.entity.SpuInfoEntity;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;

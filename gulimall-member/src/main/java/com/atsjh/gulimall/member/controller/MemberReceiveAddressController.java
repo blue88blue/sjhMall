@@ -1,15 +1,14 @@
 package com.atsjh.gulimall.member.controller;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.atsjh.gulimall.member.vo.FareVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.atsjh.gulimall.member.entity.MemberReceiveAddressEntity;
 import com.atsjh.gulimall.member.service.MemberReceiveAddressService;
@@ -30,6 +29,22 @@ import com.atsjh.common.utils.R;
 public class MemberReceiveAddressController {
     @Autowired
     private MemberReceiveAddressService memberReceiveAddressService;
+
+    @GetMapping("addressList/{memberId}")
+    public List<MemberReceiveAddressEntity> getAddressList(@PathVariable("memberId") Long memberId){
+        return memberReceiveAddressService.getAddressList(memberId);
+    }
+
+    @GetMapping("address/{address_id}")
+    @ResponseBody
+    public FareVo getAddressById(@PathVariable("address_id") Long address_id){
+        MemberReceiveAddressEntity byId = memberReceiveAddressService.getById(address_id);
+        FareVo fareVo = new FareVo();
+        fareVo.setAddress(byId);
+        fareVo.setFare(new BigDecimal(6.5));
+        return fareVo;
+    }
+
 
     /**
      * 列表
