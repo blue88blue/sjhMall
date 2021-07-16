@@ -24,7 +24,12 @@ spring:
           filters: # 路径重写
             - RewritePath=/api/(?<segment>.*),/$\{segment}
 
-
+        - id: coupon_route
+          uri: lb://gulimall-coupon
+          predicates:
+            - Path=/api/coupon/**
+          filters: # 路径重写
+            - RewritePath=/api/(?<segment>.*),/$\{segment}
 
         - id: gulimall-third-party
           uri: lb://gulimall-third-party

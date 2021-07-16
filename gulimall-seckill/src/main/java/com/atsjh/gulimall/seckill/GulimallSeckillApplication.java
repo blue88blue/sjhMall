@@ -1,6 +1,5 @@
-package com.atsjh.gulimall.coupon;
+package com.atsjh.gulimall.seckill;
 
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -8,12 +7,11 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @EnableFeignClients
 @EnableDiscoveryClient
-@MapperScan("com.atsjh.gulimall.coupon.dao")
 @SpringBootApplication
-public class GulimallCouponApplication {
+public class GulimallSeckillApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(GulimallCouponApplication.class, args);
+        SpringApplication.run(GulimallSeckillApplication.class, args);
     }
 
 }

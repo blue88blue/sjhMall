@@ -1,0 +1,16 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+  application:
+    name: gulimall-seckill
+  redis:
+    host: localhost
+    password: sjh9323
+    port: 6379
+
+
+
+server:
+  port: 25000
